@@ -37,6 +37,18 @@ describe('notify-send', function() {
     expectArgsListToBe(expected, done);
     var notifier = new Notify({ suppressOsdCheck: true });
     notifier.notify({ message: 'body' });
+
+  it.only('should only include strings as arguments', function (done) {
+    var expected = ['"HACKED"', '--expire-time', '"10000"'];
+
+    expectArgsListToBe(expected, done);
+    var notifier = new Notify({ suppressOsdCheck: true });
+    var options = JSON.parse(
+      '{"title":"HACKED", "message":["`touch HACKED`"]}'
+    );
+    notifier.notify(options);
+  });
+  
   });
 
   it('should throw error if no message is passed', function(done) {
